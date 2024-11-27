@@ -34,7 +34,7 @@ def setup_vector_db():
 
 # Function to create RAG pipeline
 @st.cache_resource
-def setup_rag_pipeline(vectorstore):
+def setup_rag_pipeline(_vectorstore):
     # Load an open-source LLM from Hugging Face
     llm = pipeline("text2text-generation", model="google/flan-t5-base")
 
