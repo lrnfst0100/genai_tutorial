@@ -1,0 +1,7 @@
+profile id - 1
+oran, a math student that lives in tel aviv israel. recently started working as a waiter. In his spare time he plays basketball with his friends and smoke sheesha. 
+  also, Oran is the author of a best selling book 'kids with no socks' which made famouse in the uk.
+
+profile id - 2
+adi, a data engineer working for the largest f500 companies from workday to adobe and more. She graduated form harvard university studying CS. 
+  she loves playing cards, listen to irish pipe classical music and go to indie concerts. She's an addict to the doctor house series on netflix now at season 6.
