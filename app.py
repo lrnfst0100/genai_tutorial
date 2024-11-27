@@ -5,6 +5,8 @@ from langchain.chains import RetrievalQA
 from langchain.text_splitter import CharacterTextSplitter
 from transformers import pipeline
 from sentence_transformers import SentenceTransformer
+from langchain.llms import LLMChain
+from langchain.runnables import Runnable
 
 # Title
 st.title("GenAI RAG App with Open-Source Models")
@@ -38,23 +40,28 @@ def setup_rag_pipeline(_vectorstore):
     # Load an open-source LLM from Hugging Face
     llm = pipeline("text2text-generation", model="google/flan-t5-base")
 
-    # Define a wrapper for the pipeline to integrate with LangChain
-    class HuggingFaceLLM:
-        def __init__(self, pipeline):
-            self.pipeline = pipeline
+    # Define HuggingFaceLLM as a Runnable
+class HuggingFaceLLM(Runnable):
+    def __init__(self, model_name: str):
+        self.pipeline = pipeline("text2text-generation", model=model_name)
 
-        def __call__(self, prompt):
-            response = self.pipeline(prompt, max_length=512, truncation=True)
-            return response[0]['generated_text']
+    def invoke(self, prompt: str):
+        response = self.pipeline(prompt, max_length=512, truncation=True)
+        return response[0]['generated_text']
 
-    # Wrap the Hugging Face pipeline
-    wrapped_llm = HuggingFaceLLM(llm)
+@st.cache_resource
+def setup_rag_pipeline(_vectorstore):
+    # Initialize LLM
+    llm = HuggingFaceLLM(model_name="google/flan-t5-base")
 
-    # Combine retriever and LLM in a RAG pipeline
-    retriever = vectorstore.as_retriever()
-    qa_chain = RetrievalQA.from_chain_type(llm=wrapped_llm, retriever=retriever)
+    # Define retriever
+    retriever = _vectorstore.as_retriever()
+
+    # Setup QA chain
+    qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
+    
     return qa_chain
-
+    
 # Respond to user query
 if query:
     vectorstore = setup_vector_db()
