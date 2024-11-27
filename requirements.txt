@@ -1,5 +1,5 @@
 streamlit
 faiss-cpu
 langchain
-openai
-python-dotenv
+transformers
+sentence-transformers
