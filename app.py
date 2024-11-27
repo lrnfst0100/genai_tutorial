@@ -1,6 +1,6 @@
 import streamlit as st
-from langchain.vectorstores import FAISS
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 from langchain.text_splitter import CharacterTextSplitter
 from transformers import pipeline
@@ -25,8 +25,8 @@ def setup_vector_db():
     documents = splitter.split_text(data)
 
     # Use SentenceTransformers for embeddings
-    embeddings_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-    embeddings = HuggingFaceEmbeddings(model_name=embeddings_model)
+    embeddings_model_name = 'sentence-transformers/all-MiniLM-L6-v2'  # Just the model name as a string
+    embeddings = HuggingFaceEmbeddings(model_name=embeddings_model_name)
     
     # Create FAISS VectorStore
     vectorstore = FAISS.from_texts(documents, embeddings)
