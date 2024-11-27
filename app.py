@@ -2,6 +2,7 @@ import streamlit as st
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
+from langchain.chains import LLMChain
 from langchain.text_splitter import CharacterTextSplitter
 from transformers import pipeline
 from sentence_transformers import SentenceTransformer
